@@ -48,7 +48,6 @@
                     <div class="col-md-4 form-group my-3">
                         <label for="editor_id" class="form-label">Editor</label>
                         <select class="form-select" name="editor_id" id="editor_id" required>
-                            <option value="">-- Selecione um Editor --</option>
                             @foreach($editors as $editor)
                                 <option value="{{ $editor->id }}">{{ $editor->nome }}</option>
                             @endforeach
@@ -76,7 +75,6 @@
                     <div class="col-md-4 form-group my-3">
                         <label for="genero_id" class="form-label">Gênero</label>
                         <select class="form-select" name="genero_id" id="genero_id" required>
-                            <option value="">-- Selecione um Gênero --</option>
                             @foreach($generos as $genero)
                                 <option value="{{ $genero->id }}">{{ $genero->nome }}</option>
                             @endforeach

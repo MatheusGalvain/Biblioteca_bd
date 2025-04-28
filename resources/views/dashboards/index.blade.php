@@ -31,30 +31,49 @@
     </section>
 
     {{-- Seção Carrossel de Livros --}}
-    <section class="py-5 mt-5" style="background-color: #f8f9fa;">
+    <section class="py-2 mt-5" style="background-color: #f8f9fa;">
         <div class="container d-flex flex-column align-items-center">
             <h2 class="mb-3" style="font-size: 36px; font-weight: 700; color: #333;">Nosso Acervo</h2>
             <p style="font-size: 18px; color: #777;">Veja alguns dos títulos disponíveis para empréstimo:</p>
-            
-            <div id="carouselLivros" class="carousel slide w-75 mt-4" data-bs-ride="carousel">
+    
+            <div id="carouselLivros" class="carousel slide w-100 mt-4" data-bs-ride="carousel">
                 <div class="carousel-inner">
-                    {{-- @foreach ($livros as $index => $livro)
-                        <div class="carousel-item {{ $index == 0 ? 'active' : '' }}">
-                            <div class="d-flex justify-content-center">
-                                <h3 style="font-size: 28px; color: #d84734;">{{ $livro }}</h3>
+                    @foreach($livros->chunk(3) as $chunk)
+                        <div class="carousel-item @if($loop->first) active @endif">
+                            <div class="row">
+                                @foreach($chunk as $livro)
+                                    <div class="col-md-4 mb-4">
+                                        <!-- Condição para definir a cor da borda -->
+                                        <div class="card shadow-lg p-2 align-items-center" style="border: none; border-radius: 15px;">
+                                            <img src="{{ asset('img/book.png') }}" class="card-img-top" style="width: 150px; height: 200px;" alt="Imagem do Livro">
+    
+                                            <div class="card-body">
+                                                <h1 class="card-title text-center" style="font-size: 27px; color: #333;">{{ $livro->titulo }}</h1>
+                                                <p class="card-text text-center" style="color: #666;">
+                                                    <strong>Autor:</strong> {{ $livro->autor }}<br>
+                                                    <strong>Editora:</strong> {{ $livro->editor->nome }}<br>
+                                                    <strong>Gênero:</strong> {{ $livro->genero->nome }}<br>
+                                                    <span class="badge" style="background-color: {{ $livro->disponivel == 'Sim' ? '#28a745' : '#d84734' }}; color: white;">
+                                                        {{ $livro->disponivel == 'Não' ? 'Indisponível' : 'Disponível' }}
+                                                    </span>
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endforeach
                             </div>
                         </div>
-                    @endforeach --}}
+                    @endforeach
                 </div>
-                <button class="carousel-control-prev" type="button" data-bs-target="#carouselLivros" data-bs-slide="prev">
-                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                </button>
-                <button class="carousel-control-next" type="button" data-bs-target="#carouselLivros" data-bs-slide="next">
-                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                </button>
             </div>
+    
+            <!-- Botão "Veja Mais" -->
+            <a href="{{ route('livros-cadastrados') }}" class="btn btn-primary shadow mt-4" style="width: fit-content; padding: 0.75rem 2rem; font-size: 1rem; background-color: #d84734; border-radius: 0.5rem; border: none;">
+                Veja Mais
+            </a>
         </div>
     </section>
+    
 
     {{-- Nova Sessão 1 - Benefícios --}}
     <section class="py-5" style="background-color: white;">

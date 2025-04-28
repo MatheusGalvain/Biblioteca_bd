@@ -3,11 +3,13 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Livro;
 
 class DashboardController extends Controller
 {
     public function index() {
-        return view('dashboards.index');
+        $livros = Livro::all();
+
+        return view('dashboards.index', compact('livros'));
     }
-    
 }

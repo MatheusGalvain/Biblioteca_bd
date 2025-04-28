@@ -74,12 +74,13 @@ Route::prefix('/emprestimos')->group(function() {
     Route::get('/', [EmprestimoController::class, 'index'])->name('emprestimos-index');
     Route::get('/create', [EmprestimoController::class, 'create'])->name('emprestimos-create');
     Route::post('/', [EmprestimoController::class, 'store'])->name('emprestimos-store');
-    Route::get('/{id}edit', [EmprestimoController::class, 'edit'])->where('id', '[0-9]+')->name('emprestimos-edit');
-    Route::put('{id}', [EmprestimoController::class, 'update'])->where('id', '[0-9]+')->name('emprestimos-update');
-    Route::delete('{id}', [EmprestimoController::class, 'destroy'])->where('id', '[0-9]+')->name('emprestimos-destroy');
+    Route::get('/{id}/edit', [EmprestimoController::class, 'edit'])->where('id', '[0-9]+')->name('emprestimos-edit');
+    Route::put('/{id}', [EmprestimoController::class, 'update'])->where('id', '[0-9]+')->name('emprestimos-update');
+    Route::delete('/{id}', [EmprestimoController::class, 'destroy'])->where('id', '[0-9]+')->name('emprestimos-destroy');
 
-    Route::get('/emprestimos/pdf', [EmprestimoController::class, 'gerarPDF'])->name('emprestimos-pdf');
+    Route::get('/pdf', [EmprestimoController::class, 'gerarPDF'])->name('emprestimos-pdf');
 });
+
 Route::get('/emprestimos/relatorio', [EmprestimoController::class, 'relatorioView'])->name('emprestimos-relatorio');
 
 Route::get('/leitor/{id}/total-emprestimos', [EmprestimoController::class, 'totalEmprestimosPorLeitor']);

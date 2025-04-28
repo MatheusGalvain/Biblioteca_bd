@@ -18,7 +18,14 @@ class EmprestimoController extends Controller
     
     public function index()
     {
-        $emprestimos = ViewEmprestimo::all();
+        $emprestimos = ViewEmprestimo::select(
+                'titulo',
+                'leitor_nome',
+                DB::raw('SUM(quantidade_emprestada) as quantidade_emprestada')
+            )
+            ->groupBy('titulo', 'leitor_nome')
+            ->get();
+    
         return view('emprestimos.index', compact('emprestimos'));
     }
 
@@ -127,8 +134,18 @@ class EmprestimoController extends Controller
     }
 
     public function destroy($id) {
-        DB::table('emprestimos')->where('id', $id)->delete();
-        session()->flash('danger', 'Empréstimo excluído com sucesso!');
+        $emprestimo = Emprestimo::findOrFail($id);
+    
+        $livro = Livro::findOrFail($emprestimo->livro_id);
+
+        $livro->estoque += $emprestimo->estoque;
+        $livro->save();
+    
+        $emprestimo->delete();
+    
+        session()->flash('danger', 'Empréstimo excluído com sucesso! Quantidade do livro restaurada ao estoque.');
+    
         return redirect()->route('emprestimos-index');
     }
+    
 }

@@ -21,7 +21,7 @@
                             <strong>Editora:</strong> {{ $livro->editor->nome }}<br>
                             <strong>Gênero:</strong> {{ $livro->genero->nome }}<br>
                             <span class="badge" style="background-color: {{ $livro->disponivel == 'Sim' ? '#28a745' : '#d84734' }}; color: white;">
-                                {{ $livro->disponivel == 'Não' ? 'Indisponível' : 'Disponível' }}
+                                {{ $livro->disponivel == 'Sim' ? 'Disponível' : 'Indisponível' }}
                             </span>
                         </p>
                     </div>

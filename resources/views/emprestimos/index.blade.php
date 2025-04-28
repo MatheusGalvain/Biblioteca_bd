@@ -46,6 +46,7 @@
                 <table class="table table-hover table-striped table-bordered align-middle m-0">
                     <thead class="table-light" style="font-size: 14px;">
                         <tr>
+                            <th>Leitor</th>
                             <th>Título do Livro</th>
                             <th>Quantidade Emprestada</th>
                             <th class="text-center">Ações</th>
@@ -54,29 +55,21 @@
                     <tbody style="font-size: 12px;">
                         @foreach($emprestimos as $emprestimo)
                             <tr>
+                                <td>{{ $emprestimo->leitor_nome }}</td>
                                 <td>{{ $emprestimo->titulo }}</td>
                                 <td>{{ $emprestimo->quantidade_emprestada }}</td>
                                 <td class="text-center">
                                     <div class="d-flex justify-content-center gap-2">
                                         <!-- Botão modal -->
-                                        <button type="button" class="btn btn-success btn-sm" title="Ver informações" data-bs-toggle="modal" data-bs-target="#modalEmprestimo{{ $emprestimo->emprestimo_id }}">
+                                        <button type="button" class="btn btn-success btn-sm" title="Ver informações" data-bs-toggle="modal" data-bs-target="#modalEmprestimo{{ md5($emprestimo->titulo . $emprestimo->leitor_nome) }}">
                                             <i class="bi bi-info-circle"></i>
                                         </button>
-
-                                        <form action="{{ route('emprestimos-destroy', ['id' => $emprestimo->emprestimo_id]) }}" method="POST" style="display: inline-block;">
-                                            @csrf
-                                            @method('delete')
-                                            <button class="btn btn-danger btn-sm" title="Excluir" onclick="return confirm('Tem certeza que deseja excluir este empréstimo?')">
-                                                <i class="bi bi-trash3"></i>
-                                            </button>
-                                        </form>
-
                                     </div>
                                 </td>
                             </tr>
 
                             <!-- Modal único por empréstimo -->
-                            <div class="modal fade" id="modalEmprestimo{{ $emprestimo->emprestimo_id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal fade" id="modalEmprestimo{{ md5($emprestimo->titulo . $emprestimo->leitor_nome) }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                 <div class="modal-dialog">
                                     <div class="modal-content">
                                         <div class="modal-header">
@@ -84,11 +77,9 @@
                                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
                                         </div>
                                         <div class="modal-body">
+                                            <div class="d-flex p-2"><strong>Leitor:</strong>&nbsp;{{ $emprestimo->leitor_nome }}</div>
                                             <div class="d-flex p-2"><strong>Livro:</strong>&nbsp;{{ $emprestimo->titulo }}</div>
                                             <div class="d-flex p-2"><strong>Quantidade:</strong>&nbsp;{{ $emprestimo->quantidade_emprestada }}</div>
-                                            <div class="d-flex p-2"><strong>Leitor:</strong>&nbsp;{{ $emprestimo->leitor_nome }}</div>
-                                            <div class="d-flex p-2"><strong>Data do Empréstimo:</strong>&nbsp;{{ \Carbon\Carbon::parse($emprestimo->data_emprestimo)->format('d/m/y') }}</div>
-                                            <div class="d-flex p-2"><strong>Data da Devolução:</strong>&nbsp;{{ \Carbon\Carbon::parse($emprestimo->data_devolucao)->format('d/m/y') }}</div>
                                         </div>
                                     </div>
                                 </div>

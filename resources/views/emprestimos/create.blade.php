@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Cadastro de Empréstimos')
+@section('title', 'Cadastro de Livros')
 
 @section('content')
 <div class="container py-5">
@@ -124,4 +124,4 @@
         });
     });
 </script>
-
+@endsection

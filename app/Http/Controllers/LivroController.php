@@ -14,15 +14,20 @@ class LivroController extends Controller
         $livros = Livro::orderBy('created_at', 'desc')->with('editor', 'genero')->get();
         $editors = Editor::all();
         $generos = Genero::all();
-        return view('livros.index', 
-        [
-            'livros'=>$livros,
-            'editors='=>$editors,
-            'generos'=>$generos
-        ]
-    );
+    
+        // Mostrar pro Professor: Função de livros Disponiveis
+        foreach ($livros as $livro) {
+            $resultado = \DB::select('SELECT fn_verifica_disponibilidade_livro(?) as disponivel', [$livro->id]);
+            $livro->disponivel = $resultado[0]->disponivel ?? 'Não';
+        }
+    
+        return view('livros.index', [
+            'livros' => $livros,
+            'editors' => $editors,
+            'generos' => $generos
+        ]);
     }
-
+    
     public function livrosCadastrados() {
         $livros = Livro::orderBy('created_at', 'desc')->with('editor', 'genero')->get();
     
